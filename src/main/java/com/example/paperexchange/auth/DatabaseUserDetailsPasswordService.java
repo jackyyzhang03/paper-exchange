@@ -21,7 +21,7 @@ public class DatabaseUserDetailsPasswordService implements UserDetailsPasswordSe
 
     @Override
     public UserDetails updatePassword(UserDetails userDetails, String newPassword) {
-        User user = userRepository.findUserByUsername(userDetails.getUsername());
+        User user = userRepository.findUserByEmail(userDetails.getUsername());
         user.setPassword(newPassword);
         return new BasicUserDetails(user);
     }

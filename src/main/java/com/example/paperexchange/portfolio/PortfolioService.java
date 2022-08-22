@@ -18,16 +18,16 @@ public class PortfolioService {
         this.holdingRepository = holdingRepository;
     }
 
-    public List<Holding> getUserHoldings(String username) {
-        return holdingRepository.findHoldingsByUserUsername(username);
+    public List<Holding> getUserHoldings(String email) {
+        return holdingRepository.findHoldingsByUserEmail(email);
     }
 
-    public Holding getHolding(String username, String symbol) {
-        return holdingRepository.findHoldingByUserUsernameAndSymbol(username, symbol);
+    public Holding getHolding(String email, String symbol) {
+        return holdingRepository.findHoldingByUserEmailAndSymbol(email, symbol);
     }
 
     public void processTrade(Trade trade) {
-        Holding holding = holdingRepository.findHoldingByUserUsernameAndSymbol(trade.getUser().getUsername(), trade.getSymbol());
+        Holding holding = holdingRepository.findHoldingByUserEmailAndSymbol(trade.getUser().getEmail(), trade.getSymbol());
         if (holding == null) holding = new Holding(trade.getSymbol(), 0, 0, trade.getUser());
         switch (trade.getType()) {
             case BUY -> {
@@ -44,7 +44,7 @@ public class PortfolioService {
     }
 
     public boolean checkValidOrder(Order order) {
-        Holding holding = holdingRepository.findHoldingByUserUsernameAndSymbol(order.getUser().getUsername(), order.getSymbol());
+        Holding holding = holdingRepository.findHoldingByUserEmailAndSymbol(order.getUser().getEmail(), order.getSymbol());
         if (order.isSell() && (holding == null || order.getShares() > holding.getShares())) return false;
         return true;
     }

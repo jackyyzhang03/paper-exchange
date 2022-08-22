@@ -24,15 +24,15 @@ public class OrderService {
         this.portfolioService = portfolioService;
     }
 
-    public List<Order> getOrders(String username) {
-        return orderRepository.findOrdersByUserUsername(username);
+    public List<Order> getOrders(String email) {
+        return orderRepository.findOrdersByUserEmail(email);
     }
 
     public Order getOrder(long id) {
         return orderRepository.findOrderById(id);
     }
 
-    public void createOrder(OrderDto orderDto, String username) {
+    public void createOrder(OrderDto orderDto, String email) {
         Order order = new Order();
         order.setType(orderDto.type());
         order.setSymbol(orderDto.symbol());
@@ -40,7 +40,7 @@ public class OrderService {
         order.setExecutionPrice(orderDto.executionPrice());
         order.setStopLimitPrice(orderDto.stopLimitPrice());
         order.setSell(orderDto.sell());
-        order.setUser(userRepository.findUserByUsername(username));
+        order.setUser(userRepository.findUserByEmail(email));
         if (portfolioService.checkValidOrder(order)) {
             orderRepository.save(order);
             tradeService.addOrder(order);

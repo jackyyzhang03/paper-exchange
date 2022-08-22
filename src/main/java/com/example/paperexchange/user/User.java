@@ -10,20 +10,21 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String email;
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
-
     private boolean enabled;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String email, String password) {
+        this.email = email;
         this.password = password;
-        this.role = Role.USER;
+        this.role = Role.USER_UNVERIFIED;
         this.enabled = true;
     }
 
@@ -31,16 +32,12 @@ public class User {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getEmail() {
+        return email;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -65,5 +62,9 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isVerified() {
+        return !role.toString().contains("UNVERIFIED");
     }
 }

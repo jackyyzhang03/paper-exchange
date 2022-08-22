@@ -60,7 +60,7 @@ public class FinnhubWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
-    @Scheduled(fixedDelay = 300)
+    // @Scheduled(fixedDelay = 300)
     public void testPrice() {
         priceService.updatePrice(new Price("AAPL", Math.random() * 200));
         tradeService.processPriceUpdate(new Price("AAPL", Math.random() * 200));

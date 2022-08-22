@@ -19,6 +19,8 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
@@ -44,7 +46,8 @@ public class SecurityConfiguration {
                 .cors().configurationSource(corsConfigurationSource()).and()
                 .authorizeHttpRequests((authorize) -> authorize
                         .antMatchers("/auth/register", "/h2-console/**", "/prices", "/symbols").permitAll()
-                        .anyRequest().authenticated())
+                        .antMatchers("/auth/**", "/users").authenticated()
+                        .anyRequest().hasRole("USER_VERIFIED"))
                 .csrf((csrf) -> csrf.ignoringAntMatchers("/auth/*", "/h2-console/**"))
                 .headers((headers) -> headers.frameOptions().sameOrigin()) // For H2 console
                 .httpBasic(Customizer.withDefaults())
@@ -68,6 +71,21 @@ public class SecurityConfiguration {
         JWK jwk = new RSAKey.Builder(this.key).privateKey(this.priv).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
+    }
+
+    @Bean
+    public JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter() {
+        JwtGrantedAuthoritiesConverter converter = new JwtGrantedAuthoritiesConverter();
+        converter.setAuthoritiesClaimName("authorities");
+        converter.setAuthorityPrefix("");
+        return converter;
+    }
+
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        converter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter());
+        return converter;
     }
 
     @Bean

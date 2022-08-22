@@ -25,15 +25,15 @@ public class OrderController {
 
     @PostMapping
     public void createOrder(@RequestBody OrderDto orderDto, Authentication authentication) {
-        String username = authentication.getName();
-        orderService.createOrder(orderDto, username);
+        String email = authentication.getName();
+        orderService.createOrder(orderDto, email);
     }
 
     @DeleteMapping("/{id}")
     public void cancelOrder(@PathVariable String id, Authentication authentication) {
         Order order = orderService.getOrder(Long.parseLong(id));
         if (order == null) throw new NotFoundException();
-        if (order.getUser().getUsername().equals(authentication.getName())) {
+        if (order.getUser().getEmail().equals(authentication.getName())) {
             orderService.deleteOrder(order);
         } else {
             throw new NotAuthorizedException();

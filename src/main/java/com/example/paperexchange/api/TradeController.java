@@ -25,7 +25,7 @@ public class TradeController {
 
     @GetMapping
     public Map<String, List<TradeDto>> getTrades(Authentication authentication) {
-        List<Trade> trades = tradeRepository.findTradesByUserUsername(authentication.getName());
+        List<Trade> trades = tradeRepository.findTradesByUserEmail(authentication.getName());
         List<TradeDto> dtos = trades.stream().map((trade) -> new TradeDto(trade.getType(), trade.getSymbol(), trade.getPrice(), trade.getShares(), trade.getTime())).toList();
         return Collections.singletonMap("trades", dtos);
     }

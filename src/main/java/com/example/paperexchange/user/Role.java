@@ -1,6 +1,7 @@
 package com.example.paperexchange.user;
 
 public enum Role {
-    USER,
+    USER_UNVERIFIED,
+    USER_VERIFIED,
     ADMIN
 }
