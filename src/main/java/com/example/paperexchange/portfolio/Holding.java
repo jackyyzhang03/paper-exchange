@@ -16,7 +16,8 @@ public class Holding {
     @ManyToOne
     private User user;
 
-    public Holding() {}
+    public Holding() {
+    }
 
     public Holding(String symbol, int shares, double adjustedCostBase, User user) {
         this.symbol = symbol;

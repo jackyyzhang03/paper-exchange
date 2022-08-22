@@ -45,7 +45,6 @@ public class PortfolioService {
 
     public boolean checkValidOrder(Order order) {
         Holding holding = holdingRepository.findHoldingByUserEmailAndSymbol(order.getUser().getEmail(), order.getSymbol());
-        if (order.isSell() && (holding == null || order.getShares() > holding.getShares())) return false;
-        return true;
+        return !order.isSell() || (holding != null && order.getShares() <= holding.getShares());
     }
 }

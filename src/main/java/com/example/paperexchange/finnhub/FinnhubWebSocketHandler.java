@@ -20,14 +20,12 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class FinnhubWebSocketHandler extends TextWebSocketHandler {
-    @Value("#{'${finnhub.symbols}'}")
-    private String symbols;
-
     private static final Logger logger = LoggerFactory.getLogger(FinnhubWebSocketHandler.class);
     private final TradeService tradeService;
     private final PriceService priceService;
     private final ObjectMapper mapper = new ObjectMapper();
-
+    @Value("#{'${finnhub.symbols}'}")
+    private String symbols;
     private WebSocketSession session;
 
     @Autowired

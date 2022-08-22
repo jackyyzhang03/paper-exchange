@@ -8,10 +8,6 @@ import java.time.Instant;
 @Entity
 @Table(name = "trades")
 public class Trade {
-    public enum Type {
-        BUY, SELL
-    }
-
     @Id
     @GeneratedValue
     private Long id;
@@ -20,11 +16,11 @@ public class Trade {
     private double price;
     private int shares;
     private Instant time;
-
     @ManyToOne
     private User user;
 
-    public Trade() {}
+    public Trade() {
+    }
 
     public Trade(Type type, String symbol, double price, int shares, Instant time, User user) {
         this.type = type;
@@ -81,5 +77,9 @@ public class Trade {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public enum Type {
+        BUY, SELL
     }
 }

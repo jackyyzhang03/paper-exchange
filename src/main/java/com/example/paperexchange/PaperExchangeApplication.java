@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class PaperExchangeApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(PaperExchangeApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PaperExchangeApplication.class, args);
+    }
 
 }

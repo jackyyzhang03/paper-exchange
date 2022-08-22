@@ -1,6 +1,5 @@
 package com.example.paperexchange.price;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +25,7 @@ public class PriceSubscriptionHandler extends TextWebSocketHandler {
         try {
             PriceSubscription subscription = mapper.readValue(message.getPayload(), PriceSubscription.class);
             priceService.handleSubscriptions(subscription.symbols(), session);
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
     }
 }

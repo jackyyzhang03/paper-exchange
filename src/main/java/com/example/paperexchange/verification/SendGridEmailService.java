@@ -16,9 +16,9 @@ import java.util.UUID;
 
 @Service
 public class SendGridEmailService {
-    private static Logger logger = LoggerFactory.getLogger(SendGridEmailService.class);
-    private SendGrid sendGrid;
-    private String verificationEndpoint = "http://localhost:4200/verify";
+    private static final Logger logger = LoggerFactory.getLogger(SendGridEmailService.class);
+    private final SendGrid sendGrid;
+    private final String verificationEndpoint = "http://localhost:4200/verify";
 
     @Autowired
     public SendGridEmailService(SendGrid sendGrid) {

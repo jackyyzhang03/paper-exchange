@@ -7,30 +7,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "orders")
 public class Order {
-    public enum Type {
-        MARKET, LIMIT, STOP, STOP_LIMIT
-    }
-
     @Id
     @GeneratedValue
     private Long id;
-
     @Column(nullable = false)
     private String symbol;
-
     @Column(nullable = false)
     private Type type;
-
     @Column(nullable = false)
     private int shares;
-
     @ManyToOne
     private User user;
-
     private double executionPrice; // Not applicable for market orders
-
     private double stopLimitPrice; // Only applicable for stop limit orders
-
     @Column(nullable = false)
     private boolean sell;
 
@@ -96,5 +85,9 @@ public class Order {
 
     public void setSell(boolean sell) {
         this.sell = sell;
+    }
+
+    public enum Type {
+        MARKET, LIMIT, STOP, STOP_LIMIT
     }
 }
