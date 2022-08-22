@@ -1,11 +1,11 @@
 package com.example.paperexchange.portfolio;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
 public interface HoldingRepository extends JpaRepository<Holding, Long> {
-    List<Holding> findHoldingsByUserEmail(String email);
+    Page<Holding> findHoldingsByUserEmail(String email, Pageable pageable);
 
     Holding findHoldingByUserEmailAndSymbol(String email, String symbol);
 }

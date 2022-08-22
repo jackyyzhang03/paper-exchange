@@ -6,12 +6,10 @@ import com.example.paperexchange.order.Order;
 import com.example.paperexchange.order.OrderDto;
 import com.example.paperexchange.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/orders")
@@ -41,9 +39,9 @@ public class OrderController {
     }
 
     @GetMapping
-    public Map<String, List<OrderDto>> getOrders(Authentication authentication) {
-        List<Order> orders = orderService.getOrders(authentication.getName());
-        List<OrderDto> dtos = orders.stream().map((order) -> new OrderDto(order.getId(), order.getSymbol(), order.getType(), order.getShares(), order.getExecutionPrice(), order.getStopLimitPrice(), order.isSell())).toList();
-        return Collections.singletonMap("orders", dtos);
+    public Page<OrderDto> getOrders(Pageable pageable, Authentication authentication) {
+        Page<Order> orders = orderService.getOrders(pageable, authentication.getName());
+        Page<OrderDto> page = orders.map((order) -> new OrderDto(order.getId(), order.getSymbol(), order.getType(), order.getShares(), order.getExecutionPrice(), order.getStopLimitPrice(), order.isSell()));
+        return page;
     }
 }

@@ -5,9 +5,9 @@ import com.example.paperexchange.portfolio.PortfolioService;
 import com.example.paperexchange.trade.TradeService;
 import com.example.paperexchange.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class OrderService {
@@ -24,8 +24,8 @@ public class OrderService {
         this.portfolioService = portfolioService;
     }
 
-    public List<Order> getOrders(String email) {
-        return orderRepository.findOrdersByUserEmail(email);
+    public Page<Order> getOrders(Pageable pageable, String email) {
+        return orderRepository.findOrdersByUserEmail(pageable, email);
     }
 
     public Order getOrder(long id) {
