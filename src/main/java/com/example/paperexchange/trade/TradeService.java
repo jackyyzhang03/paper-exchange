@@ -53,21 +53,21 @@ public class TradeService {
 
         // Process limit orders
         orders = limitBuyOrders.get(symbol);
-        while (orders != null && !orders.isEmpty() && orders.peek().getExecutionPrice() <= price.price()) {
+        while (orders != null && !orders.isEmpty() && orders.peek().getExecutionPrice() >= price.price()) {
             executeOrder(orders.remove(), price.price());
         }
         orders = limitSellOrders.get(symbol);
-        while (orders != null && !orders.isEmpty() && orders.peek().getExecutionPrice() >= price.price()) {
+        while (orders != null && !orders.isEmpty() && orders.peek().getExecutionPrice() <= price.price()) {
             executeOrder(orders.remove(), price.price());
         }
 
         // Process stop orders
         orders = stopBuyOrders.get(symbol);
-        while (orders != null && !orders.isEmpty() && orders.peek().getExecutionPrice() >= price.price()) {
+        while (orders != null && !orders.isEmpty() && orders.peek().getExecutionPrice() <= price.price()) {
             executeOrder(orders.remove(), price.price());
         }
         orders = stopSellOrders.get(symbol);
-        while (orders != null && !orders.isEmpty() && orders.peek().getExecutionPrice() <= price.price()) {
+        while (orders != null && !orders.isEmpty() && orders.peek().getExecutionPrice() >= price.price()) {
             executeOrder(orders.remove(), price.price());
         }
     }
@@ -139,22 +139,22 @@ public class TradeService {
                     limitSellOrders.get(symbol).add(order);
                 } else {
                     // Limit buy orders are executed from highest to lowest price
-                    limitSellOrders.putIfAbsent(symbol, createDecreasingQueue());
-                    limitSellOrders.get(symbol).add(order);
+                    limitBuyOrders.putIfAbsent(symbol, createDecreasingQueue());
+                    limitBuyOrders.get(symbol).add(order);
                 }
             }
         }
     }
 
-    private Queue createQueue() {
+    private Queue<Order> createQueue() {
         return new ArrayBlockingQueue<>(16);
     }
 
-    private Queue createDecreasingQueue() {
+    private Queue<Order> createDecreasingQueue() {
         return new PriorityBlockingQueue<>(16, Comparator.comparingDouble(Order::getExecutionPrice).reversed());
     }
 
-    private Queue createIncreasingQueue() {
+    private Queue<Order> createIncreasingQueue() {
         return new PriorityBlockingQueue<>(16, Comparator.comparingDouble(Order::getExecutionPrice));
     }
 
