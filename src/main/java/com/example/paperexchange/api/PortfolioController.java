@@ -4,13 +4,13 @@ import com.example.paperexchange.portfolio.Holding;
 import com.example.paperexchange.portfolio.HoldingDto;
 import com.example.paperexchange.portfolio.PortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/portfolio")
@@ -23,10 +23,10 @@ public class PortfolioController {
     }
 
     @GetMapping
-    public Page<HoldingDto> getPortfolio(Pageable pageable, Authentication authentication) {
-        Page<Holding> holdings = portfolioService.getUserHoldings(authentication.getName(), pageable);
-        Page<HoldingDto> page = holdings.map(holding -> new HoldingDto(holding.getSymbol(), holding.getShares(), holding.getAdjustedCostBase()));
-        return page;
+    public List<HoldingDto> getPortfolio(Authentication authentication) {
+        List<Holding> entities = portfolioService.getUserHoldings(authentication.getName());
+        List<HoldingDto> holdings = entities.stream().map(holding -> new HoldingDto(holding.getSymbol(), holding.getShares(), holding.getAdjustedCostBase())).toList();
+        return holdings;
     }
 
     @GetMapping("/holdings/{symbol}")

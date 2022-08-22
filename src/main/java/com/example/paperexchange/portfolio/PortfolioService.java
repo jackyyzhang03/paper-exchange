@@ -3,10 +3,10 @@ package com.example.paperexchange.portfolio;
 import com.example.paperexchange.order.Order;
 import com.example.paperexchange.trade.Trade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -18,8 +18,8 @@ public class PortfolioService {
         this.holdingRepository = holdingRepository;
     }
 
-    public Page<Holding> getUserHoldings(String email, Pageable pageable) {
-        return holdingRepository.findHoldingsByUserEmail(email, pageable);
+    public List<Holding> getUserHoldings(String email) {
+        return holdingRepository.findHoldingsByUserEmail(email);
     }
 
     public Holding getHolding(String email, String symbol) {
