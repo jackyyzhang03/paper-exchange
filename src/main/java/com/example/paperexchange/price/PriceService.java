@@ -1,6 +1,7 @@
 package com.example.paperexchange.price;
 
 import com.example.paperexchange.exception.NotFoundException;
+import com.example.paperexchange.finnhub.FinnhubUriBuilderFactory;
 import com.example.paperexchange.finnhub.Price;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -26,10 +26,12 @@ public class PriceService {
     private final Map<String, PriceUpdate> priceMap = new ConcurrentHashMap<>();
     private final ObjectMapper mapper = new ObjectMapper();
     private final RestTemplate restTemplate;
+    private final FinnhubUriBuilderFactory finnhubUriBuilderFactory;
 
     @Autowired
-    public PriceService(RestTemplateBuilder restTemplateBuilder) {
+    public PriceService(RestTemplateBuilder restTemplateBuilder, FinnhubUriBuilderFactory finnhubUriBuilderFactory) {
         this.restTemplate = restTemplateBuilder.build();
+        this.finnhubUriBuilderFactory = finnhubUriBuilderFactory;
     }
 
     public void handleSubscriptions(List<String> symbols, WebSocketSession session) throws IOException {
@@ -44,14 +46,20 @@ public class PriceService {
         if (priceMap.containsKey(symbol)) {
             return priceMap.get(symbol).getPrice();
         }
-        URI uri = UriComponentsBuilder.fromHttpUrl("https://finnhub.io/api/v1/quote")
-                .queryParam("symbol", symbol)
-                .queryParam("token", "***REMOVED***")
-                .build()
-                .toUri();
-        Quote quote = this.restTemplate.getForObject(uri, Quote.class);
+        URI uri = finnhubUriBuilderFactory.getUriBuilder("/quote").queryParam("symbol", symbol).build();
+        Quote quote = restTemplate.getForObject(uri, Quote.class);
         if (quote == null) throw new NotFoundException();
         return quote.currentPrice();
+    }
+
+    public Candles getCandles(String symbol, String resolution, long from, long to) {
+        URI uri = finnhubUriBuilderFactory.getUriBuilder("/stock/candle")
+                .queryParam("symbol", symbol)
+                .queryParam("resolution", resolution)
+                .queryParam("from", from)
+                .queryParam("to", to)
+                .build();
+        return restTemplate.getForObject(uri, Candles.class);
     }
 
     public void updatePrice(Price price) {
