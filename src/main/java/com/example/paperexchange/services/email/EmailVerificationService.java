@@ -1,6 +1,6 @@
 package com.example.paperexchange.services.email;
 
-import com.example.paperexchange.exception.InvalidEmailVerificationToken;
+import com.example.paperexchange.exceptions.InvalidEmailVerificationToken;
 import com.example.paperexchange.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

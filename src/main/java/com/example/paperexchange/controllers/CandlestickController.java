@@ -1,7 +1,7 @@
 package com.example.paperexchange.controllers;
 
 import com.example.paperexchange.dtos.CandlestickChart;
-import com.example.paperexchange.exception.InvalidRequestException;
+import com.example.paperexchange.exceptions.InvalidRequestException;
 import com.example.paperexchange.services.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;

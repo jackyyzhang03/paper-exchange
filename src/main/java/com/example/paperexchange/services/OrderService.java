@@ -2,7 +2,7 @@ package com.example.paperexchange.services;
 
 import com.example.paperexchange.dtos.OrderDto;
 import com.example.paperexchange.entities.Order;
-import com.example.paperexchange.exception.InsufficientSharesException;
+import com.example.paperexchange.exceptions.InsufficientSharesException;
 import com.example.paperexchange.repositories.OrderRepository;
 import com.example.paperexchange.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

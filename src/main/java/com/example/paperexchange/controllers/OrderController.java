@@ -2,8 +2,8 @@ package com.example.paperexchange.controllers;
 
 import com.example.paperexchange.dtos.OrderDto;
 import com.example.paperexchange.entities.Order;
-import com.example.paperexchange.exception.NotAuthorizedException;
-import com.example.paperexchange.exception.NotFoundException;
+import com.example.paperexchange.exceptions.NotAuthorizedException;
+import com.example.paperexchange.exceptions.NotFoundException;
 import com.example.paperexchange.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

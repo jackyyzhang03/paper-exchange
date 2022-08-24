@@ -2,7 +2,7 @@ package com.example.paperexchange.services.user;
 
 import com.example.paperexchange.dtos.RegistrationRequest;
 import com.example.paperexchange.entities.User;
-import com.example.paperexchange.exception.UserAlreadyExistsException;
+import com.example.paperexchange.exceptions.UserAlreadyExistsException;
 import com.example.paperexchange.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
