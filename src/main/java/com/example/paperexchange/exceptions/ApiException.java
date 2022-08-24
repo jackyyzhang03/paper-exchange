@@ -1,4 +1,4 @@
-package com.example.paperexchange.exception;
+package com.example.paperexchange.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
