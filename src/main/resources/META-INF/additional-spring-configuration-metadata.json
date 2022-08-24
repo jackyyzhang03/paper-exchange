@@ -1,0 +1,38 @@
+{
+  "properties": [
+    {
+      "name": "jwt.private-key",
+      "type": "java.lang.String",
+      "description": "Private key for signing JWT."
+    },
+    {
+      "name": "jwt.public-key",
+      "type": "java.lang.String",
+      "description": "JWT public key."
+    },
+    {
+      "name": "finnhub.symbols",
+      "type": "java.lang.String",
+      "description": "Space separated list of stock symbols."
+    },
+    {
+      "name": "finnhub.token",
+      "type": "java.lang.String",
+      "description": "Finnhub API key."
+    },
+    {
+      "name": "verification.endpoint",
+      "type": "java.lang.String",
+      "description": "Frontend email verification endpoint included in verification emails."
+    },
+    {
+      "name": "verification.template.id",
+      "type": "java.lang.String",
+      "description": "Description for verification.template.id."
+    },
+    {
+      "name": "verification.email",
+      "type": "java.lang.String",
+      "description": "Description for verification.email."
+    }
+  ] }

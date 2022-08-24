@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+
 ### STS ###
 .apt_generated
 .classpath
@@ -31,3 +32,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Properties ###
+src/main/resources/application-dev.yml
+src/main/resources/application-prod.yml
+
+### RSA Keys ###
+.key
+.pub
